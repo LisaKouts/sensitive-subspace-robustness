@@ -1,6 +1,7 @@
 import numpy as np
 from sklearn.decomposition import TruncatedSVD
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 from collections import OrderedDict
 
 def compl_svd_projector(names, svd=-1):
@@ -205,7 +206,8 @@ def train_fair_nn(X_train, y_train, sensitive_directions, X_test=None, y_test=No
     dist_f = fair_dist(proj_compl, 0.)
     V_sensitive = sensitive_directions.shape[0]
 
-    global_step = tf.contrib.framework.get_or_create_global_step()
+    # global_step = tf.contrib.framework.get_or_create_global_step()
+    global_step = tf.compat.v1.train.get_or_create_global_step()
 
     N, D = X_train.shape
     lamb = lamb_init
